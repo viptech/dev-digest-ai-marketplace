@@ -1,0 +1,6 @@
+{
+  "name": "engineering-paved-path",
+  "version": "1.0.0",
+  "description": "Shared engineering-practice skills: React, React Testing Library, Next.js, Fastify, onion/hexagonal architecture, Drizzle ORM, PostgreSQL table design, Zod, TypeScript, web security (OWASP), and Mermaid diagrams.",
+  "author": { "name": "viptech" }
+}
