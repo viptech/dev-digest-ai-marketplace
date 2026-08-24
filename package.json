@@ -1,0 +1,10 @@
+{
+  "name": "dev-digest-ai-marketplace",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Claude Code plugin marketplace extracted from DevDigest's engineering harness",
+  "license": "MIT",
+  "scripts": {
+    "build:index": "echo TODO: implement in Phase 3 (scripts/build-index.mjs)"
+  }
+}
