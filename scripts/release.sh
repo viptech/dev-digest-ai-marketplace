@@ -101,7 +101,13 @@ else
     DEP_NAME="$(jq -r ".dependencies[$i].name" "$MANIFEST")"
     DEP_RANGE="$(jq -r ".dependencies[$i].version" "$MANIFEST")"
 
-    mapfile -t DEP_TAGS < <(git tag -l "${DEP_NAME}--v*")
+    # Portable to bash 3.2 (macOS's default /bin/bash has no `mapfile`
+    # builtin — that's bash-4+ only) — read into an array line by line
+    # instead.
+    DEP_TAGS=()
+    while IFS= read -r line; do
+      [[ -n "$line" ]] && DEP_TAGS+=("$line")
+    done < <(git tag -l "${DEP_NAME}--v*")
 
     if [[ "${#DEP_TAGS[@]}" -eq 0 ]]; then
       echo "release.sh: dependency '${DEP_NAME}' (needs ${DEP_RANGE}) has no tags yet — tag it first." >&2
