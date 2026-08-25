@@ -5,9 +5,10 @@ with a hand-written hash router (no `react-router`), MiniSearch-backed
 search, and `marked` + `DOMPurify` markdown rendering for README/SKILL.md/
 agent/CHANGELOG content.
 
-Routes: `#/`, `#/search`, `#/plugin/<name>`, `#/artifact/<id>` are
-implemented here (Phase 3.2). `#/whats-new` and `#/getting-started` render a
-placeholder page until Phase 3.3 fills them in.
+Routes: `#/`, `#/search`, `#/plugin/<name>`, `#/artifact/<id>`, `#/whats-new`,
+and `#/getting-started` are all implemented. The plugin detail page also
+renders a dependency-graph visualization and version/compatibility badges
+(Phase 3.3).
 
 ## Data contract
 
@@ -52,7 +53,7 @@ full invariant text. Do not add a second markdown-rendering path.
 
 ## i18n
 
-`src/i18n/useT.ts` is a placeholder — it returns the fallback English text
-passed to it. Every component already routes UI strings through it so no
-call sites need to change when Phase 3.3 lands the real dictionary
-(`src/i18n/en.json`) and swaps this hook's internals.
+Every UI string routes through `src/i18n/useT.ts`, a `useT('key')` hook
+backed by the flat dictionary at `src/i18n/en.json`. A missing key falls
+back to the literal key string rather than throwing. English-only for
+v1.0.0 — no component should ever hardcode a literal UI string.
