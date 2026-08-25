@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "dev-digest-ai-marketplace",
+  "owner": { "name": "viptech" },
+  "description": "Reusable Claude Code engineering harness — shared engineering-practice skills, a read-only research agent, a generalized architecture reviewer, and the Spec Driven Development workflow (spec-creator, implementation-planner, implementer, plan-verifier).",
+  "plugins": [
+    { "name": "engineering-paved-path", "source": "./plugins/engineering-paved-path" },
+    { "name": "research-tools", "source": "./plugins/research-tools" },
+    { "name": "architecture-review", "source": "./plugins/architecture-review" },
+    { "name": "sdd-engineering", "source": "./plugins/sdd-engineering" }
+  ]
+}
