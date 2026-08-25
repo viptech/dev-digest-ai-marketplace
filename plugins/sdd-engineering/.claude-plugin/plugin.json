@@ -1,0 +1,11 @@
+{
+  "name": "sdd-engineering",
+  "version": "1.0.0",
+  "description": "The spec-driven-development workflow: spec-creator, implementation-planner, run-plan, implementer, and plan-verifier agents/skills, plus workflow-retro and engineering-insights.",
+  "author": { "name": "viptech" },
+  "dependencies": [
+    { "name": "engineering-paved-path", "version": "^1.0.0" },
+    { "name": "research-tools", "version": "^1.0.0" },
+    { "name": "architecture-review", "version": "^1.0.0" }
+  ]
+}
