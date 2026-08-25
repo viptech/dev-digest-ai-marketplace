@@ -12,6 +12,8 @@ on:
   pull_request:
     paths:
       - "scripts/build-index.mjs"
+      - "package.json"
+      - "package-lock.json"
       - "site/**"
       - "plugins/**"
       - ".claude-plugin/marketplace.json"
