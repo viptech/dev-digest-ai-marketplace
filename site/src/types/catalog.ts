@@ -26,6 +26,18 @@ export interface PluginEntry {
   /** -> bodies/<bodyId>.md (README.md body) */
   bodyId: string;
   dependencies: PluginDependency[];
+  /**
+   * Version floor parsed from the plugin's own COMPATIBILITY.md (e.g.
+   * ">=2.1.110"). null when COMPATIBILITY.md is missing or unparsable.
+   * Consumed by `CompatibilityBadge` — never hardcode this value.
+   */
+  compatibilityFloor: string | null;
+}
+
+/** Shape `CompatibilityBadge` renders — current version + the parsed floor. */
+export interface CompatibilityInfo {
+  version: string;
+  floor: string | null;
 }
 
 export interface SkillEntry {

@@ -19,31 +19,27 @@ export function SearchPage() {
 
   return (
     <section>
-      <h1>{t('search.title', 'Search')}</h1>
-      <label htmlFor="catalog-search">{t('search.label', 'Search plugins, skills, and agents')}</label>
+      <h1>{t('search.title')}</h1>
+      <label htmlFor="catalog-search">{t('search.label')}</label>
       <input
         id="catalog-search"
         type="search"
         value={query}
         onChange={(event) => setQuery(event.target.value)}
-        placeholder={t('search.placeholder', 'e.g. drizzle, onion architecture, react')}
+        placeholder={t('search.placeholder')}
       />
 
-      {catalog.status === 'loading' && (
-        <p role="status">{t('search.loadingCatalog', 'Loading catalog…')}</p>
-      )}
+      {catalog.status === 'loading' && <p role="status">{t('search.loadingCatalog')}</p>}
       {catalog.status === 'error' && (
         <p role="alert">
-          {t('search.errorCatalog', 'Failed to load catalog: ')}
+          {t('search.errorCatalog')}
           {catalog.error}
         </p>
       )}
 
       {trimmedQuery !== '' && (
         <p aria-live="polite">
-          {results.length === 0
-            ? t('search.noResults', 'No results.')
-            : `${results.length} ${t('search.resultsSuffix', 'result(s)')}`}
+          {results.length === 0 ? t('search.noResults') : `${results.length} ${t('search.resultsSuffix')}`}
         </p>
       )}
 

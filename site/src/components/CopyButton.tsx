@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useT } from '../i18n/useT';
 
 export interface CopyButtonProps {
   text: string;
@@ -12,6 +13,7 @@ export interface CopyButtonProps {
  * visible and selectable, so nothing is lost.
  */
 export function CopyButton({ text, label }: CopyButtonProps) {
+  const t = useT();
   const [copied, setCopied] = useState(false);
 
   async function handleClick() {
@@ -26,7 +28,7 @@ export function CopyButton({ text, label }: CopyButtonProps) {
 
   return (
     <button type="button" onClick={() => void handleClick()} aria-label={label}>
-      {copied ? 'Copied!' : label}
+      {copied ? t('copyButton.copied') : label}
     </button>
   );
 }

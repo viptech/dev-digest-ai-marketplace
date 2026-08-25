@@ -16,6 +16,7 @@ const fixtureEntries: IndexEntry[] = [
     keywords: [],
     bodyId: 'engineering-paved-path/readme',
     dependencies: [],
+    compatibilityFloor: '>=2.1.110',
   },
   {
     type: 'skill',

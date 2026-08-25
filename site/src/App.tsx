@@ -1,9 +1,10 @@
 import { Layout } from './components/Layout';
 import { ArtifactPage } from './pages/ArtifactPage';
-import { ComingSoonPage } from './pages/ComingSoonPage';
+import { GettingStarted } from './pages/GettingStarted';
 import { HomePage } from './pages/HomePage';
 import { PluginPage } from './pages/PluginPage';
 import { SearchPage } from './pages/SearchPage';
+import { WhatsNew } from './pages/WhatsNew';
 import { type Route, useHashRoute } from './router/useHashRoute';
 
 interface RouteViewProps {
@@ -21,9 +22,9 @@ function RouteView({ route }: RouteViewProps) {
     case 'artifact':
       return <ArtifactPage artifactId={route.artifactId} />;
     case 'whats-new':
-      return <ComingSoonPage title="What's new" />;
+      return <WhatsNew />;
     case 'getting-started':
-      return <ComingSoonPage title="Getting started" />;
+      return <GettingStarted />;
   }
 }
 

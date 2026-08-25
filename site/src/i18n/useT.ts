@@ -1,13 +1,21 @@
+import en from './en.json';
+
+const dictionary: Record<string, string> = en;
+
 /**
- * i18n placeholder stub — the real dictionary-backed `useT` and
- * `site/src/i18n/en.json` land in Phase 3.3 (architecture.md:341-347). This
- * minimal version returns the caller-supplied English fallback text
- * directly, so every component already routes its UI strings through a `t`
- * function (no hardcoded literals) and 3.3 only needs to swap this hook's
- * internals for a real dictionary lookup — no call site changes required.
+ * Real i18n hook (Phase 3.3, architecture.md:341-347) — reads the flat
+ * `en.json` dictionary. English-only for v1.0.0; the flat key shape leaves
+ * room for a second locale file later without a component rewrite (not in
+ * scope now).
+ *
+ * A missing key falls back to the literal key string rather than throwing —
+ * that makes a missed dictionary entry visibly wrong in the rendered UI
+ * (e.g. `plugin.someNewKey` leaking onto the page) instead of crashing the
+ * whole page, which is easier to spot in review/QA than a thrown error
+ * during render.
  */
 export function useT() {
-  return function t(_key: string, fallback: string): string {
-    return fallback;
+  return function t(key: string): string {
+    return dictionary[key] ?? key;
   };
 }

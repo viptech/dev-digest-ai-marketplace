@@ -4,7 +4,14 @@ import { promises as fsp } from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 
-import { buildCatalog, writeCatalog, parseChangelog, parseFrontmatter, REPO_ROOT } from './build-index.mjs';
+import {
+  buildCatalog,
+  writeCatalog,
+  parseChangelog,
+  parseFrontmatter,
+  parseCompatibilityFloor,
+  REPO_ROOT,
+} from './build-index.mjs';
 
 // These tests run against the real plugins/** tree checked into this repo
 // (not a fixture) per the real-data-only constraint — they assert on the
@@ -68,6 +75,23 @@ test('buildCatalog finds all four real plugins with correct type/pluginName', as
     assert.equal(entry.id, entry.pluginName);
     assert.ok(entry.pluginVersion, `${entry.pluginName} should have a pluginVersion`);
     assert.ok(Array.isArray(entry.dependencies));
+  }
+});
+
+test('parseCompatibilityFloor extracts the version floor from the "Requires Claude Code `>=X.Y.Z`." sentence', () => {
+  assert.equal(
+    parseCompatibilityFloor('# Compatibility\n\nRequires Claude Code `>=2.1.110`.\n'),
+    '>=2.1.110',
+  );
+  assert.equal(parseCompatibilityFloor(null), null);
+  assert.equal(parseCompatibilityFloor('# Compatibility\n\nNo version sentence here.\n'), null);
+});
+
+test('all four real plugins carry the same compatibilityFloor from their COMPATIBILITY.md', async () => {
+  const catalog = await buildCatalog({ rootDir: REPO_ROOT });
+  const pluginEntries = catalog.index.filter((e) => e.type === 'plugin');
+  for (const entry of pluginEntries) {
+    assert.equal(entry.compatibilityFloor, '>=2.1.110', `${entry.pluginName} should carry the compatibility floor`);
   }
 });
 

@@ -27,6 +27,12 @@
  *     // This is what 3.3's dependency-graph feature consumes — the field
  *     // name `dependencies` is the contract established here.
  *     dependencies: { name: string; version: string }[];
+ *     // Version floor parsed from the plugin's own COMPATIBILITY.md (e.g.
+ *     // "Requires Claude Code `>=2.1.110`." -> ">=2.1.110"). null when the
+ *     // file is missing or doesn't match the expected sentence shape. This
+ *     // is what 3.3's CompatibilityBadge consumes — never hardcode the
+ *     // floor string component-side, read it from here.
+ *     compatibilityFloor: string | null;
  *   };
  *
  *   type SkillEntry = {
@@ -245,6 +251,22 @@ async function listMarkdownFilesIfExists(dirPath) {
 }
 
 /**
+ * Extracts the Claude Code version floor from a COMPATIBILITY.md's
+ * "Requires Claude Code `>=X.Y.Z`." sentence. Returns null when the file is
+ * absent or the sentence shape doesn't match (never throws — a missing/odd
+ * COMPATIBILITY.md degrades to "no floor known" rather than failing the
+ * whole build).
+ *
+ * @param {string | null} content
+ * @returns {string | null}
+ */
+export function parseCompatibilityFloor(content) {
+  if (content === null) return null;
+  const match = /Claude Code\s+`([^`]+)`/.exec(content);
+  return match ? match[1].trim() : null;
+}
+
+/**
  * @param {unknown} value
  * @returns {string[]}
  */
@@ -294,9 +316,10 @@ export async function buildCatalog({ rootDir }) {
     // docs the discovery walk reads (architecture.md's plugin contract).
     const readme = await readFileIfExists(path.join(pluginDir, 'README.md'));
     const changelog = await readFileIfExists(path.join(pluginDir, 'CHANGELOG.md'));
-    // Read for completeness of the discovery walk; not surfaced as its own
-    // index entry (not an artifact type), but copied into bodies/ for the
-    // SPA's "compatibility" tab in a later sub-plan.
+    // Not surfaced as its own index entry (not an artifact type): copied
+    // into bodies/ for the SPA's "compatibility" section rendering (raw
+    // prose) AND parsed into `compatibilityFloor` below (structured value
+    // for CompatibilityBadge) — both consume this same read.
     const compatibility = await readFileIfExists(path.join(pluginDir, 'COMPATIBILITY.md'));
 
     const pluginBodyId = `${pluginName}/readme`;
@@ -315,6 +338,7 @@ export async function buildCatalog({ rootDir }) {
       keywords: normalizeKeywords(pluginJson.keywords),
       bodyId: pluginBodyId,
       dependencies: dependencies.map((d) => ({ name: d.name, version: d.version })),
+      compatibilityFloor: parseCompatibilityFloor(compatibility),
     });
 
     // releases.json — parsed from CHANGELOG.md, git tags are best-effort.

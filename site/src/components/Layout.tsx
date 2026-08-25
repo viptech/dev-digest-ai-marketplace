@@ -7,10 +7,9 @@ export interface LayoutProps {
 
 /**
  * Base app shell: header (brand + search entry point) and primary nav
- * matching the six routes `useHashRoute` recognizes. `#/whats-new` and
- * `#/getting-started` link here even though they render a placeholder page
- * until Phase 3.3 — the SPA should never dead-end on an unimplemented nav
- * link.
+ * matching the six routes `useHashRoute` recognizes (`#/whats-new` and
+ * `#/getting-started` render their real Phase 3.3 pages, `WhatsNew` and
+ * `GettingStarted`).
  */
 export function Layout({ children }: LayoutProps) {
   const t = useT();
@@ -19,13 +18,13 @@ export function Layout({ children }: LayoutProps) {
     <div>
       <header>
         <a href="#/">
-          <strong>{t('layout.brand', 'Dev Digest AI Marketplace')}</strong>
+          <strong>{t('layout.brand')}</strong>
         </a>
-        <nav aria-label={t('layout.navLabel', 'Primary')}>
-          <a href="#/">{t('nav.home', 'Home')}</a>
-          <a href="#/search">{t('nav.search', 'Search')}</a>
-          <a href="#/whats-new">{t('nav.whatsNew', "What's new")}</a>
-          <a href="#/getting-started">{t('nav.gettingStarted', 'Getting started')}</a>
+        <nav aria-label={t('layout.navLabel')}>
+          <a href="#/">{t('nav.home')}</a>
+          <a href="#/search">{t('nav.search')}</a>
+          <a href="#/whats-new">{t('nav.whatsNew')}</a>
+          <a href="#/getting-started">{t('nav.gettingStarted')}</a>
         </nav>
       </header>
       <main>{children}</main>

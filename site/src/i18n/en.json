@@ -1,0 +1,67 @@
+{
+  "layout.brand": "Dev Digest AI Marketplace",
+  "layout.navLabel": "Primary",
+  "nav.home": "Home",
+  "nav.search": "Search",
+  "nav.whatsNew": "What's new",
+  "nav.gettingStarted": "Getting started",
+
+  "home.loading": "Loading catalog…",
+  "home.error": "Failed to load catalog: ",
+  "home.title": "Plugin catalog",
+  "home.statsPlugins": "Plugins",
+  "home.statsSkills": "Skills",
+  "home.statsAgents": "Agents",
+
+  "search.title": "Search",
+  "search.label": "Search plugins, skills, and agents",
+  "search.placeholder": "e.g. drizzle, onion architecture, react",
+  "search.loadingCatalog": "Loading catalog…",
+  "search.errorCatalog": "Failed to load catalog: ",
+  "search.noResults": "No results.",
+  "search.resultsSuffix": "result(s)",
+
+  "plugin.loading": "Loading…",
+  "plugin.error": "Failed to load catalog: ",
+  "plugin.notFound": "Plugin not found: ",
+  "plugin.version": "Version",
+  "plugin.installSectionLabel": "Install command",
+  "plugin.install": "Install",
+  "plugin.copyInstall": "Copy install command",
+  "plugin.composition": "Skills & agents",
+  "plugin.compatibility": "Compatibility",
+  "plugin.readme": "README",
+  "plugin.readmeLoading": "Loading README…",
+  "plugin.readmeError": "Failed to load README.",
+
+  "artifact.loading": "Loading…",
+  "artifact.error": "Failed to load catalog: ",
+  "artifact.notFound": "Artifact not found: ",
+  "artifact.bodyLoading": "Loading content…",
+  "artifact.bodyError": "Failed to load content.",
+
+  "copyButton.copied": "Copied!",
+
+  "badge.sectionLabel": "Compatibility badge",
+  "badge.version": "Version",
+  "badge.floor": "Requires Claude Code",
+  "badge.floorUnknown": "Compatibility floor unknown",
+
+  "dependencyGraph.sectionLabel": "Dependency graph",
+  "dependencyGraph.title": "Dependencies",
+  "dependencyGraph.dependsOn": "Depends on",
+  "dependencyGraph.dependedOnBy": "Depended on by",
+
+  "whatsNew.title": "What's new",
+  "whatsNew.loading": "Loading releases…",
+  "whatsNew.error": "Failed to load catalog: ",
+  "whatsNew.empty": "No releases yet.",
+
+  "gettingStarted.title": "Getting started",
+  "gettingStarted.intro": "This marketplace ships reusable Claude Code plugins — skills and agents extracted from the DevDigest project — that any Claude Code project can install directly.",
+  "gettingStarted.addMarketplaceTitle": "1. Add the marketplace",
+  "gettingStarted.addMarketplaceBody": "Register this marketplace with your local Claude Code install (run once per project):",
+  "gettingStarted.installPluginTitle": "2. Install a plugin",
+  "gettingStarted.installPluginBody": "Install any plugin listed in the catalog by name, replacing <name> with the plugin you want (see the catalog for available names):",
+  "gettingStarted.copyCommand": "Copy command"
+}

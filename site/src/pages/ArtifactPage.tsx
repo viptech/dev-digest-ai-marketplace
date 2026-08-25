@@ -25,12 +25,12 @@ export function ArtifactPage({ artifactId }: ArtifactPageProps) {
   const body = useBody(artifact ? artifact.bodyId : null);
 
   if (catalog.status === 'loading') {
-    return <p role="status">{t('artifact.loading', 'Loading…')}</p>;
+    return <p role="status">{t('artifact.loading')}</p>;
   }
   if (catalog.status === 'error') {
     return (
       <p role="alert">
-        {t('artifact.error', 'Failed to load catalog: ')}
+        {t('artifact.error')}
         {catalog.error}
       </p>
     );
@@ -38,7 +38,7 @@ export function ArtifactPage({ artifactId }: ArtifactPageProps) {
   if (!artifact) {
     return (
       <p role="alert">
-        {t('artifact.notFound', 'Artifact not found: ')}
+        {t('artifact.notFound')}
         {artifactId}
       </p>
     );
@@ -54,8 +54,8 @@ export function ArtifactPage({ artifactId }: ArtifactPageProps) {
       <p>{artifact.description}</p>
       <section>
         {body.status === 'ready' && <Markdown markdown={body.markdown} />}
-        {body.status === 'loading' && <p role="status">{t('artifact.bodyLoading', 'Loading content…')}</p>}
-        {body.status === 'error' && <p role="alert">{t('artifact.bodyError', 'Failed to load content.')}</p>}
+        {body.status === 'loading' && <p role="status">{t('artifact.bodyLoading')}</p>}
+        {body.status === 'error' && <p role="alert">{t('artifact.bodyError')}</p>}
       </section>
     </article>
   );

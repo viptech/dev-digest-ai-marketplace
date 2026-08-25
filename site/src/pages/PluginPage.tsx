@@ -1,7 +1,9 @@
 import { useBody } from '../data/useBody';
 import { useCatalog } from '../data/useCatalog';
 import { useT } from '../i18n/useT';
+import { CompatibilityBadge } from '../components/CompatibilityBadge';
 import { CopyButton } from '../components/CopyButton';
+import { DependencyGraph } from '../components/DependencyGraph';
 import { Markdown } from '../components/Markdown';
 import type { IndexEntry, PluginEntry } from '../types/catalog';
 
@@ -38,20 +40,20 @@ export function PluginPage({ pluginName }: PluginPageProps) {
         )
       : undefined;
 
-  // COMPATIBILITY.md is not surfaced as structured data in index.json (only
-  // as a raw body file, per scripts/build-index.mjs) — rendered here as its
-  // own sanitized markdown section rather than parsed into a "floor" value
-  // that doesn't exist in the current data contract.
+  // The full COMPATIBILITY.md body is still rendered as its own sanitized
+  // markdown section (below) for the human-readable prose; the structured
+  // `compatibilityFloor` field (index.json) drives the CompatibilityBadge
+  // instead of re-parsing that markdown client-side.
   const readmeBody = useBody(plugin ? plugin.bodyId : null);
   const compatibilityBody = useBody(plugin ? `${plugin.pluginName}/compatibility` : null);
 
   if (catalog.status === 'loading') {
-    return <p role="status">{t('plugin.loading', 'Loading…')}</p>;
+    return <p role="status">{t('plugin.loading')}</p>;
   }
   if (catalog.status === 'error') {
     return (
       <p role="alert">
-        {t('plugin.error', 'Failed to load catalog: ')}
+        {t('plugin.error')}
         {catalog.error}
       </p>
     );
@@ -59,7 +61,7 @@ export function PluginPage({ pluginName }: PluginPageProps) {
   if (!plugin) {
     return (
       <p role="alert">
-        {t('plugin.notFound', 'Plugin not found: ')}
+        {t('plugin.notFound')}
         {pluginName}
       </p>
     );
@@ -68,6 +70,7 @@ export function PluginPage({ pluginName }: PluginPageProps) {
   const composition = catalog.data.index.filter(
     (entry) => entry.type !== 'plugin' && entry.pluginName === plugin.pluginName,
   );
+  const allPlugins = catalog.data.index.filter(isPluginEntry);
   const installCommand = buildInstallCommand(plugin.name);
 
   return (
@@ -75,34 +78,24 @@ export function PluginPage({ pluginName }: PluginPageProps) {
       <h1>{plugin.name}</h1>
       <p>{plugin.description}</p>
       <dl>
-        <dt>{t('plugin.version', 'Version')}</dt>
+        <dt>{t('plugin.version')}</dt>
         <dd>{plugin.pluginVersion}</dd>
       </dl>
+      <CompatibilityBadge info={{ version: plugin.pluginVersion, floor: plugin.compatibilityFloor }} />
 
-      <section aria-label={t('plugin.installSectionLabel', 'Install command')}>
-        <h2>{t('plugin.install', 'Install')}</h2>
+      <section aria-label={t('plugin.installSectionLabel')}>
+        <h2>{t('plugin.install')}</h2>
         <pre>
           <code>{installCommand}</code>
         </pre>
-        <CopyButton text={installCommand} label={t('plugin.copyInstall', 'Copy install command')} />
+        <CopyButton text={installCommand} label={t('plugin.copyInstall')} />
       </section>
 
-      {plugin.dependencies.length > 0 && (
-        <section>
-          <h2>{t('plugin.dependencies', 'Dependencies')}</h2>
-          <ul>
-            {plugin.dependencies.map((dep) => (
-              <li key={dep.name}>
-                <a href={`#/plugin/${dep.name}`}>{dep.name}</a> {dep.version}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      <DependencyGraph plugin={plugin} allPlugins={allPlugins} />
 
       {composition.length > 0 && (
         <section>
-          <h2>{t('plugin.composition', 'Skills & agents')}</h2>
+          <h2>{t('plugin.composition')}</h2>
           <ul>
             {composition.map((entry) => (
               <li key={entry.id}>
@@ -115,20 +108,16 @@ export function PluginPage({ pluginName }: PluginPageProps) {
 
       {compatibilityBody.status === 'ready' && (
         <section>
-          <h2>{t('plugin.compatibility', 'Compatibility')}</h2>
+          <h2>{t('plugin.compatibility')}</h2>
           <Markdown markdown={compatibilityBody.markdown} />
         </section>
       )}
 
       <section>
-        <h2>{t('plugin.readme', 'README')}</h2>
+        <h2>{t('plugin.readme')}</h2>
         {readmeBody.status === 'ready' && <Markdown markdown={readmeBody.markdown} />}
-        {readmeBody.status === 'loading' && (
-          <p role="status">{t('plugin.readmeLoading', 'Loading README…')}</p>
-        )}
-        {readmeBody.status === 'error' && (
-          <p role="alert">{t('plugin.readmeError', 'Failed to load README.')}</p>
-        )}
+        {readmeBody.status === 'loading' && <p role="status">{t('plugin.readmeLoading')}</p>}
+        {readmeBody.status === 'error' && <p role="alert">{t('plugin.readmeError')}</p>}
       </section>
     </article>
   );

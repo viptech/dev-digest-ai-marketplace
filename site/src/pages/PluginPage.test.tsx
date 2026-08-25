@@ -13,6 +13,7 @@ const testPlugin: PluginEntry = {
   keywords: [],
   bodyId: 'engineering-paved-path/readme',
   dependencies: [],
+  compatibilityFloor: '>=2.1.110',
 };
 
 vi.mock('../data/useCatalog', () => ({
