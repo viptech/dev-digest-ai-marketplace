@@ -5,6 +5,7 @@
   "description": "Claude Code plugin marketplace extracted from DevDigest's engineering harness",
   "license": "MIT",
   "scripts": {
-    "build:index": "echo TODO: implement in Phase 3 (scripts/build-index.mjs)"
+    "build:index": "node scripts/build-index.mjs",
+    "test": "node --test scripts/*.test.mjs"
   }
 }
