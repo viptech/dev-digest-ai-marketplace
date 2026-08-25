@@ -59,6 +59,10 @@ jobs:
       - name: Build site
         working-directory: site
         run: npm run build
+        env:
+          # GitHub Pages serves this repo from a project subpath, not the
+          # domain root — see the comment in site/vite.config.ts.
+          VITE_BASE_PATH: /dev-digest-ai-marketplace/
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
