@@ -27,8 +27,16 @@
 
 set -euo pipefail
 
-REPO_ROOT="$(git rev-parse --show-toplevel)"
-cd "$REPO_ROOT"
+# Resolve the marketplace repo's own root from this script's location, not
+# from the caller's CWD — this script is designed to be invoked from a
+# *consumer* project's directory (e.g. plugin-install-target), where
+# `claude plugin marketplace/install` need to run, so `git
+# rev-parse --show-toplevel` (CWD-dependent) would resolve to the wrong
+# repo's tags/manifest if the caller isn't sitting inside this checkout.
+# Deliberately does NOT `cd` here — the claude plugin commands below must
+# run in the caller's original CWD (the consumer project), not this repo.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MARKETPLACE_REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 usage() {
   echo "Usage: $0 <plugin-name> <tag> [--scope project|user|local] [--execute]" >&2
@@ -76,12 +84,12 @@ if [[ "$TAG" != "${EXPECTED_PREFIX}"* ]]; then
   exit 1
 fi
 
-if [[ -z "$(git tag -l "$TAG")" ]]; then
-  echo "rollback.sh: tag '${TAG}' does not exist in this repo (typo?). Refusing to print a command sequence for a tag that doesn't exist." >&2
+if [[ -z "$(git -C "$MARKETPLACE_REPO_ROOT" tag -l "$TAG")" ]]; then
+  echo "rollback.sh: tag '${TAG}' does not exist in ${MARKETPLACE_REPO_ROOT} (typo?). Refusing to print a command sequence for a tag that doesn't exist." >&2
   exit 1
 fi
 
-MARKETPLACE_MANIFEST=".claude-plugin/marketplace.json"
+MARKETPLACE_MANIFEST="${MARKETPLACE_REPO_ROOT}/.claude-plugin/marketplace.json"
 [[ -f "$MARKETPLACE_MANIFEST" ]] || { echo "rollback.sh: no manifest at ${MARKETPLACE_MANIFEST}" >&2; exit 1; }
 MARKETPLACE_NAME="$(jq -r '.name' "$MARKETPLACE_MANIFEST")"
 
