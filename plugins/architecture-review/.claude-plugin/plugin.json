@@ -1,0 +1,9 @@
+{
+  "name": "architecture-review",
+  "version": "1.0.0",
+  "description": "A generalized, read-only architectural-review agent that checks code against a project's own already-codified structural conventions.",
+  "author": { "name": "viptech" },
+  "dependencies": [
+    { "name": "engineering-paved-path", "version": "^1.0.0" }
+  ]
+}
