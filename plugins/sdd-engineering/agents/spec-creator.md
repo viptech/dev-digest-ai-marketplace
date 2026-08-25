@@ -245,10 +245,18 @@ them, and do not add sections the template doesn't have.
 - No unresolved placeholders/TBD that aren't an explicit
   `[NEEDS CLARIFICATION]`.
 - Every `AC-N` matches one of the five EARS shapes.
-- **Traceability**: every `AC-N` traces back to a Goal or User story;
-  every Edge case maps to an `AC-N` or is an explicit open question; every
-  task in the checklist cites an `AC-N` and a test name; no `AC-N` is left
-  without a task.
+- **Traceability (requirement → AC-N, blocking)**: before reporting a
+  feature spec as complete, for every Goal/User story requirement,
+  confirm at least one `AC-N` covers it. If any requirement lacks a
+  corresponding `AC-N`, do not report the spec as complete — either add
+  the missing `AC-N` yourself if the criterion is clear from context, or,
+  if it is genuinely ambiguous what a checkable criterion for that
+  requirement should be, raise it explicitly under `Open questions` and
+  continue iterating rather than finalizing the draft.
+- **Traceability (AC-N → requirement)**: every `AC-N` traces back to a
+  Goal or User story; every Edge case maps to an `AC-N` or is an explicit
+  open question; every task in the checklist cites an `AC-N` and a test
+  name; no `AC-N` is left without a task.
 - The Non-functional requirements section isn't empty for a non-trivial
   feature. If the feature touches untrusted content, actually invoke the
   `engineering-paved-path:security` skill (via the `Skill` tool) while

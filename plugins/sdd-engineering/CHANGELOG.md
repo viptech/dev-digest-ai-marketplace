@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 — Require an acceptance criterion per mandatory requirement
+
+`spec-creator` no longer reports a feature spec complete while any
+Goal/User story requirement lacks a corresponding `AC-N` — it either
+adds the missing criterion or raises it under `Open questions` first.
+Backward-compatible: a spec that already had full AC coverage is
+unaffected.
+
 ## 1.0.0 — Initial extraction
 
 Four agents (`spec-creator`, `implementation-planner`, `implementer`,
