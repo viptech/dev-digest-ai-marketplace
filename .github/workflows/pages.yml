@@ -1,0 +1,79 @@
+name: Deploy site to GitHub Pages
+
+# Runs on every push to `main`. Rebuilds the catalog index and the site
+# SPA using the same build sequence as `site.yml`, then publishes
+# `site/dist` to GitHub Pages via the standard Pages-via-Actions flow.
+# Kept as a separate workflow from `site.yml` on purpose: `site.yml`
+# verifies PRs build cleanly without ever touching deployment
+# permissions; this is the only workflow in the repo that is granted
+# `pages`/`id-token` write access. `pages: write` is required at the
+# workflow level because `actions/configure-pages` reads/writes the
+# repository's Pages configuration during the build job, not only
+# during the final deploy step.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "scripts/build-index.mjs"
+      - "site/**"
+      - "plugins/**"
+      - ".claude-plugin/marketplace.json"
+      - ".github/workflows/pages.yml"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build catalog index and site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Build catalog index
+        run: npm run build:index
+
+      - name: Install site dependencies
+        working-directory: site
+        run: npm ci
+
+      - name: Build site
+        working-directory: site
+        run: npm run build
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

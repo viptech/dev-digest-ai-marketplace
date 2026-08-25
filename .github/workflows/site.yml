@@ -1,0 +1,55 @@
+name: Site build
+
+# Runs on every pull request that touches the catalog build script, the
+# site SPA, plugin content, or the marketplace manifest. This workflow
+# only proves the site *builds* — it never publishes. Deployment to
+# GitHub Pages is handled by the separate `pages.yml` workflow, which
+# runs on push to `main`. Keeping the two workflows separate means a red
+# site build never gets conflated with `validate.yml` (plugin content
+# schema/behavior checks, a different initiative entirely).
+
+on:
+  pull_request:
+    paths:
+      - "scripts/build-index.mjs"
+      - "site/**"
+      - "plugins/**"
+      - ".claude-plugin/marketplace.json"
+      - ".github/workflows/site.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-site:
+    name: Build catalog index and site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Build catalog index
+        run: npm run build:index
+
+      - name: Run root tests
+        run: npm test
+
+      - name: Install site dependencies
+        working-directory: site
+        run: npm ci
+
+      - name: Run site tests
+        working-directory: site
+        run: npm test
+
+      - name: Build site
+        working-directory: site
+        run: npm run build

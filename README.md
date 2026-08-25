@@ -43,6 +43,21 @@ flowchart TD
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for where to start.
 
+## CI
+
+- [`.github/workflows/site.yml`](.github/workflows/site.yml) — runs on
+  pull requests, builds the catalog index and the `site/` SPA (does not
+  publish). Reproduce it locally with:
+
+  ```sh
+  npm ci && npm run build:index && npm test
+  cd site && npm ci && npm test && npm run build
+  ```
+
+- [`.github/workflows/pages.yml`](.github/workflows/pages.yml) — runs on
+  push to `main`, rebuilds the same way, and publishes `site/dist` to
+  GitHub Pages.
+
 ## License
 
 [MIT](LICENSE)
