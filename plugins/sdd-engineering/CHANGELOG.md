@@ -1,12 +1,5 @@
 # Changelog
 
-## Unreleased
-
-Trimmed `plan-verifier.md`'s Step 0 diff-artifact-reuse explanation from a
-full restatement to a short pointer at `run-plan`'s existing full
-explanation, removing duplicated always-loaded prompt text (cost-
-optimization pass, Phase 5).
-
 ## 1.0.0 — Initial extraction
 
 Four agents (`spec-creator`, `implementation-planner`, `implementer`,
@@ -18,3 +11,8 @@ this release (deferred to a possible 1.1.0+). Hardcoded DevDigest module
 names, do-not-touch lists, and language mandates were replaced with
 generic instructions that discover or ask for the consuming project's own
 equivalents instead of assuming DevDigest's.
+
+Trimmed `plan-verifier.md`'s Step 0 diff-artifact-reuse explanation from a
+full restatement to a short pointer at `run-plan`'s existing full
+explanation, removing duplicated always-loaded prompt text (cost-
+optimization pass, Phase 5).
