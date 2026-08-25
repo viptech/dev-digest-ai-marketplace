@@ -1,0 +1,23 @@
+{
+  "name": "@ai-marketplace/evals",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Behavior evals for the extracted plugin marketplace (engineering-paved-path, research-tools, architecture-review, sdd-engineering). vitest + the Claude Agent SDK, on the Claude Code subscription — no API token, no external services. A generalized, minimal subset of the dev-digest/evals engine — see README.md for what was dropped.",
+  "scripts": {
+    "eval": "vitest run",
+    "eval:skills": "vitest run skills",
+    "eval:agents": "vitest run agents",
+    "eval:workflow": "vitest run workflow",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.3.198"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

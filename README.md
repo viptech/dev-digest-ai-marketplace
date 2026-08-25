@@ -58,6 +58,17 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md) for where to start.
   push to `main`, rebuilds the same way, and publishes `site/dist` to
   GitHub Pages.
 
+## Evals
+
+- [`evals/README.md`](evals/README.md) — behavior evals for the extracted plugins, proving the
+  `sdd-engineering` composition loaded purely from `plugins/**` (no `.claude/` folder in this
+  repo) behaves per the lab Крок 7 checklist, including the negative case. Reproduce the
+  structural gate locally with:
+
+  ```sh
+  cd evals && npm ci && npm run typecheck
+  ```
+
 ## License
 
 [MIT](LICENSE)
