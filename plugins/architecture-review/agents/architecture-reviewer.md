@@ -27,14 +27,14 @@ agents in this harness, and the built-in `Explore`/`Plan` docs precedent
 
 # Input — reuse what's already known
 
-If the orchestrating session supplies a diff artifact (a file list or a
-computed `git diff` output) instead of telling you to derive it yourself,
-treat that as ground truth for *what changed* — don't spend a fresh
-`git diff`/`git status` pass rediscovering it. If a `sdd-engineering:plan-verifier`
-run already happened in this task and its "Observed, not checked" section is
-supplied, treat those items as your starting checklist, not the final
-answer — still verify each with your own `file:line` evidence before
-reporting it as a finding.
+If a diff artifact is supplied, treat it as ground truth for "what
+changed" rather than re-deriving it yourself — this is the
+diff-artifact-reuse convention `sdd-engineering:run-plan` documents in
+full. If a `sdd-engineering:plan-verifier` run already happened in this
+task and its "Observed, not checked" section is supplied, treat those
+items as your starting checklist, not the final answer — still verify
+each with your own `file:line` evidence before reporting it as a
+finding.
 
 # Rule source, not freelancing
 

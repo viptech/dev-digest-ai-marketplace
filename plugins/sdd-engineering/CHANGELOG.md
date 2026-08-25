@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+Trimmed `plan-verifier.md`'s Step 0 diff-artifact-reuse explanation from a
+full restatement to a short pointer at `run-plan`'s existing full
+explanation, removing duplicated always-loaded prompt text (cost-
+optimization pass, Phase 5).
+
 ## 1.0.0 — Initial extraction
 
 Four agents (`spec-creator`, `implementation-planner`, `implementer`,
