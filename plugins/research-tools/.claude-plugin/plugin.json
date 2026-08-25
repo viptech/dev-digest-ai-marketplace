@@ -1,0 +1,6 @@
+{
+  "name": "research-tools",
+  "version": "1.0.0",
+  "description": "A generic, read-only research agent for repository and web research — evidence-cited findings, no code changes.",
+  "author": { "name": "viptech" }
+}
